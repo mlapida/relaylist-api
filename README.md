@@ -2,7 +2,7 @@
 
 This is the API for [RelayList.com](https://relaylist.com).
 
-API Endpoint: [api.cloudrelay.com](https://api.cloudrelay.com)
+API Endpoint: [api.relaylist.com](https://api.relaylist.com)
 
 There are three primary components:
 
