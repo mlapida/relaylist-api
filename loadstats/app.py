@@ -12,48 +12,55 @@ def lambda_handler(event, context):
 
     data = response['Items']
 
-    hdr = {
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+    hdr = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15'}
     
     for relay in data:
 
         try:
-            info = json.load(urllib.request.urlopen(
-                urllib.request.Request(relay['url'], headers=hdr)))
-        except:
-            print('Issue with site')
+            data = json.load(urllib.request.urlopen(
+                urllib.request.Request(relay['nodeinfo_url'], headers=hdr)))
+
+            up = True    
+
+        except Exception as e:
+            
+            up = False
+
+            print('Issue with site: ' + relay['nodeinfo_url'] + " " + str(e))
 
         try:
-            if info['version'] == '2.0':
-                output = relay['name'] + " (Open: " + str(info['openRegistrations']) + \
-                    "): " + str(len(info['metadata']['peers']))
+            if data['version'] == '2.0':
+                output = relay['name'] + " (Open: " + str(data['openRegistrations']) + \
+                    "): " + str(len(data['metadata']['peers']))
                 
                 table.put_item(
                     Item={
                         'name': relay['name'],
                         'url' : relay['url'],
-                        'open': bool(info['openRegistrations']),
-                        'server_count': str(len(info['metadata']['peers'])),
+                        'nodeinfo_url' : relay['nodeinfo_url'],
+                        'open': bool(data['openRegistrations']),
+                        'server_count': str(len(data['metadata']['peers'])),
                     }
                 )
 
-            elif info['version'] == '2.1':
+            elif data['version'] == '2.1':
        
-                output = relay['name'] + " (Open: " + str(info['openRegistrations']) + "): " + \
-                    str(info['usage']['users']['activeMonth'])
+                output = relay['name'] + " (Open: " + str(data['openRegistrations']) + "): " + \
+                    str(data['usage']['users']['activeMonth'])
 
                 table.put_item(
                     Item={
                         'name': relay['name'],
                         'url' : relay['url'],
-                        'open': bool(info['openRegistrations']),
-                        'server_count': str(info['usage']['users']['activeMonth']),
+                        'nodeinfo_url' : relay['nodeinfo_url'],
+                        'open': bool(data['openRegistrations']),
+                        'server_count': str(data['usage']['users']['activeMonth']),
                     }
                 )
 
             print(output)
-        except:
-            print('Issue with data')
+        except Exception as e:
+            print('Issue with data: ' + str(e))
 
 
     return 
