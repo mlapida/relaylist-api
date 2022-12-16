@@ -1,0 +1,70 @@
+{
+    "relays":
+    [
+        {
+            "name": "Beckmeyer",
+            "url": "https://relay.beckmeyer.us/nodeinfo/2.0.json"
+        },
+        {
+            "name": "Tire Fire Ind",
+            "url": "https://relay.tirefireind.us/nodeinfo/2.0.json"
+        },
+        {
+            "name": "Fedinet",
+            "url": "https://relay.fedinet.social/nodeinfo/2.0.json",
+            "homepage": "https://relay.fedinet.social/",
+            "mastodon": "https://relay.fedinet.social/inbox",
+            "pleroma": ""
+        },
+        {
+            "name": "Intahnet",
+            "url": "https://relay.intahnet.co.uk/nodeinfo/2.1",
+            "homepage": "https://relay.intahnet.co.uk/",
+            "mastodon": "https://relay.intahnet.co.uk/inbox",
+            "pleroma": ""
+        },
+        {
+            "name": "Friendi",
+            "url": "https://en.relay.friendi.ca/nodeinfo/2.0.json",
+            "homepage": "https://en.relay.friendi.ca/",
+            "mastodon": "https://en.relay.friendi.ca/inbox",
+            "pleroma": "https://en.relay.friendi.ca/actor"
+        },
+        {
+            "name": "101010.pl",
+            "url": "https://relay.101010.pl/nodeinfo/2.0.json",
+            "mastodon": "https://relay.101010.pl/inbox",
+            "pleroma": "https://relay.101010.pl/actor"
+        },
+        {
+            "name": "Chocoflan",
+            "url": "https://relay.chocoflan.net/nodeinfo/2.0.json",
+            "homepage": "https://relay.chocoflan.net/",
+            "mastodon": "https://relay.chocoflan.net/inbox",
+            "pleroma": "https://relay.chocoflan.net/actor"
+        },
+        {
+            "name": "Dresden Network",
+            "url": "https://relay.dresden.network/nodeinfo/2.0.json",
+            "homepage": "https://relay.dresden.network/",
+            "mastodon": "https://relay.dresden.network/inbox",
+            "pleroma": "https://relay.dresden.network/actor"
+        },
+        {
+            "name": "Fedi Agency",
+            "url": "https://relay.fedi.agency/nodeinfo/2.0.json"
+        },
+        {
+            "name": "Fedibird",
+            "url": "https://relay.fedibird.com/nodeinfo/2.0"
+        },
+        {
+            "name": "Homunyan",
+            "url": "https://relay.homunyan.com/nodeinfo/2.0.json"
+        },
+        {
+            "name": "Libranet",
+            "url": "https://relay.libranet.de/nodeinfo/2.0.json"
+        }
+    ]
+}
