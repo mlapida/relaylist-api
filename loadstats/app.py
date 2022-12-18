@@ -20,8 +20,12 @@ def lambda_handler(event, context):
     for relay in data:
 
         try:
+            
+            getURL = json.load(urllib.request.urlopen(
+                urllib.request.Request(relay['url']+".well-known/nodeinfo", headers=hdr)))
+                
             data = json.load(urllib.request.urlopen(
-                urllib.request.Request(relay['nodeinfo_url'], headers=hdr)))
+                urllib.request.Request(getURL['links'][0]['href'], headers=hdr)))
 
         except Exception as e:
 

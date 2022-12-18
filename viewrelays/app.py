@@ -8,11 +8,16 @@ table = dynamodb.Table('relaylist')
 
 response = table.scan()
 
-def lambda_handler(event, context):
+data = json.dumps(response['Items'])
 
-    data = json.dumps(response['Items'])
+def lambda_handler(event, context):
 
     return {
         "statusCode": 200,
+        'headers': {
+            #'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET'
+        },
         "body": data,
     }
