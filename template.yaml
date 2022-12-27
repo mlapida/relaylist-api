@@ -27,7 +27,33 @@ Resources:
             Schedule: rate(30 minutes)
             Name: load-relay-metrics
             Description: Load Relay Metrics
+            Enabled: False
+  
+  ListRelaysFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: listrelays/
+      Handler: app.lambda_handler
+      Runtime: python3.9
+      Architectures:
+        - x86_64
+      Events:
+        HourlyReload:
+          Type: Schedule
+          Properties:
+            Schedule: rate(30 minutes)
+            Name: load-relay-metrics-ind
+            Description: Load Relay Metrics
             Enabled: True
+
+  LoadStatsFunctionInd:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: loadstatsind/
+      Handler: app.lambda_handler
+      Runtime: python3.9
+      Architectures:
+        - x86_64
 
   APIViewRelays:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -68,6 +94,37 @@ Resources:
         - Write
         - Read
 
+  ListRelaysConnector:
+    Type: AWS::Serverless::Connector
+    Properties:
+      Source:
+        Id: ListRelaysFunction
+      Destination:
+        Id: RelayListTable
+      Permissions:
+        - Read
+
+  InvokeRelaysConnector:
+    Type: AWS::Serverless::Connector
+    Properties:
+      Source:
+        Id: ListRelaysFunction
+      Destination:
+        Id: LoadStatsFunctionInd
+      Permissions:
+        - Write
+
+  LoadStatsFunctionIndConnector:
+    Type: AWS::Serverless::Connector
+    Properties:
+      Source:
+        Id: LoadStatsFunctionInd
+      Destination:
+        Id: RelayListTable
+      Permissions:
+        - Write
+        - Read
+
   APIConnector:
     Type: AWS::Serverless::Connector
     Properties:
@@ -78,17 +135,3 @@ Resources:
       Permissions:
         - Write
         - Read
-
-Outputs:
-  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
-  # Find out more about other implicit resources you can reference within SAM
-  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
-  APIViewRelays:
-    Description: "API Gateway endpoint URL"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/prod/relays/"
-  LoadStatsFunction:
-    Description: "Hello World Lambda Function ARN"
-    Value: !GetAtt LoadStatsFunction.Arn
-  RelayListTable:
-    Description: "DynamoDB Table"
-    Value: !GetAtt RelayListTable.Arn
