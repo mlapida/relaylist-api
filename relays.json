@@ -65,6 +65,10 @@
         {
             "name": "Libranet",
             "url": "https://relay.libranet.de/nodeinfo/2.0.json"
+        },
+        {
+            "name": "#FediBuzz Relay",
+            "url": "https://relay.fedi.buzz/"
         }
     ]
 }
